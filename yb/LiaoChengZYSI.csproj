@@ -1,0 +1,226 @@
+﻿<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="3.5">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>9.0.21022</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{87B01ECC-5A3F-45CB-8967-2FDF257A7A7D}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>LiaoChengZYSI</RootNamespace>
+    <AssemblyName>LiaoChengZYSI</AssemblyName>
+    <SccProjectName>
+    </SccProjectName>
+    <SccLocalPath>
+    </SccLocalPath>
+    <SccAuxPath>
+    </SccAuxPath>
+    <SccProvider>
+    </SccProvider>
+    <FileUpgradeFlags>
+    </FileUpgradeFlags>
+    <OldToolsVersion>2.0</OldToolsVersion>
+    <UpgradeBackupLocation>
+    </UpgradeBackupLocation>
+    <PublishUrl>publish\</PublishUrl>
+    <Install>true</Install>
+    <InstallFrom>Disk</InstallFrom>
+    <UpdateEnabled>false</UpdateEnabled>
+    <UpdateMode>Foreground</UpdateMode>
+    <UpdateInterval>7</UpdateInterval>
+    <UpdateIntervalUnits>Days</UpdateIntervalUnits>
+    <UpdatePeriodically>false</UpdatePeriodically>
+    <UpdateRequired>false</UpdateRequired>
+    <MapFileExtensions>true</MapFileExtensions>
+    <ApplicationRevision>0</ApplicationRevision>
+    <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
+    <IsWebBootstrapper>false</IsWebBootstrapper>
+    <UseApplicationTrust>false</UseApplicationTrust>
+    <BootstrapperEnabled>true</BootstrapperEnabled>
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>..\..\..\testhis\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <DocumentationFile>
+    </DocumentationFile>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="CompareManager.cs" />
+    <Compile Include="Control\frmCompare.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Control\frmCompare.Designer.cs">
+      <DependentUpon>frmCompare.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Control\frmCompareDeptAndEmpl.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Control\frmCompareDeptAndEmpl.Designer.cs">
+      <DependentUpon>frmCompareDeptAndEmpl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Control\frmSelectItemOwnRate.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Control\frmSelectItemOwnRate.Designer.cs">
+      <DependentUpon>frmSelectItemOwnRate.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Control\frmUploadCheckedInfo.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Control\frmUploadCheckedInfo.Designer.cs">
+      <DependentUpon>frmUploadCheckedInfo.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Control\ucCheckSIInpatientFeeDetails.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Control\ucCheckSIInpatientFeeDetails.Designer.cs">
+      <DependentUpon>ucCheckSIInpatientFeeDetails.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Control\ucCheckSIInpatientOrderDetails.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Control\ucCheckSIInpatientOrderDetails.Designer.cs">
+      <DependentUpon>ucCheckSIInpatientOrderDetails.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Control\ucCompare.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Control\ucCompare.designer.cs">
+      <DependentUpon>ucCompare.cs</DependentUpon>
+    </Compile>
+    <Compile Include="EnumMedicalTypeService .cs" />
+    <Compile Include="EnumMedicalTypeServiceInhos.cs" />
+    <Compile Include="EnumParametersTypeService.cs" />
+    <Compile Include="EnumPersonTypeService .cs" />
+    <Compile Include="FunctionsBack.cs" />
+    <Compile Include="LocalManager.cs" />
+    <Compile Include="Process.cs" />
+    <Compile Include="ProcessCompare.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Control\frmCompare.resx">
+      <DependentUpon>frmCompare.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Control\frmCompareDeptAndEmpl.resx">
+      <DependentUpon>frmCompareDeptAndEmpl.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Control\frmSelectItemOwnRate.resx">
+      <DependentUpon>frmSelectItemOwnRate.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Control\frmUploadCheckedInfo.resx">
+      <DependentUpon>frmUploadCheckedInfo.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Control\ucCheckSIInpatientFeeDetails.resx">
+      <DependentUpon>ucCheckSIInpatientFeeDetails.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Control\ucCheckSIInpatientOrderDetails.resx">
+      <DependentUpon>ucCheckSIInpatientOrderDetails.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Control\ucCompare.resx">
+      <DependentUpon>ucCompare.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.2.0">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 2.0 %28x86%29</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.0">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.0 %28x86%29</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="DataWindow, Version=2.5.0.0, Culture=neutral, PublicKeyToken=cc0f66dd9541b3da, processorArchitecture=x86" />
+    <Reference Include="FarPoint.Excel, Version=3.0.2008.2005, Culture=neutral, PublicKeyToken=327c3516b1b18457, processorArchitecture=MSIL" />
+    <Reference Include="FarPoint.Win, Version=3.0.2004.2005, Culture=neutral, PublicKeyToken=327c3516b1b18457, processorArchitecture=MSIL" />
+    <Reference Include="FarPoint.Win.Ink, Version=3.0.2000.2005, Culture=neutral, PublicKeyToken=327c3516b1b18457, processorArchitecture=MSIL" />
+    <Reference Include="FarPoint.Win.Spread, Version=3.0.2004.2005, Culture=neutral, PublicKeyToken=327c3516b1b18457, processorArchitecture=MSIL" />
+    <Reference Include="FarPoint.Win.Spread.Design, Version=3.0.2004.2005, Culture=neutral, PublicKeyToken=327c3516b1b18457, processorArchitecture=MSIL" />
+    <Reference Include="FrameWork, Version=3.0.0.0, Culture=neutral, processorArchitecture=MSIL" />
+    <Reference Include="FrameWork.WinForms, Version=3.0.0.0, Culture=neutral, processorArchitecture=MSIL" />
+    <Reference Include="HISFC.BizLogic.Fee, Version=2.0.0.0, Culture=neutral, processorArchitecture=MSIL" />
+    <Reference Include="HISFC.BizLogic.Manager, Version=2.0.0.0, Culture=neutral, processorArchitecture=MSIL" />
+    <Reference Include="HISFC.BizLogic.Order, Version=2.0.0.0, Culture=neutral, processorArchitecture=MSIL" />
+    <Reference Include="HISFC.BizLogic.Pharmacy, Version=2.0.0.0, Culture=neutral, processorArchitecture=MSIL" />
+    <Reference Include="HISFC.BizLogic.RADT, Version=2.0.0.0, Culture=neutral, processorArchitecture=MSIL" />
+    <Reference Include="HISFC.BizLogic.Registration, Version=2.0.0.0, Culture=neutral, processorArchitecture=MSIL" />
+    <Reference Include="HISFC.BizProcess.Integrate, Version=2.0.0.0, Culture=neutral, processorArchitecture=MSIL" />
+    <Reference Include="HISFC.BizProcess.Interface, Version=2.0.0.0, Culture=neutral, processorArchitecture=MSIL" />
+    <Reference Include="HISFC.Components.Common, Version=2.0.0.0, Culture=neutral, processorArchitecture=MSIL" />
+    <Reference Include="HISFC.Components.DrugStore, Version=2.0.0.0, Culture=neutral, processorArchitecture=MSIL" />
+    <Reference Include="HISFC.Components.InpatientFee, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL" />
+    <Reference Include="HISFC.Components.Manager, Version=2.0.0.0, Culture=neutral, processorArchitecture=MSIL" />
+    <Reference Include="HISFC.Components.Order, Version=2.0.0.0, Culture=neutral, processorArchitecture=MSIL" />
+    <Reference Include="HISFC.Components.OutpatientFee, Version=2.0.0.0, Culture=neutral, processorArchitecture=MSIL" />
+    <Reference Include="HISFC.Components.Pharmacy, Version=2.0.0.0, Culture=neutral, processorArchitecture=MSIL" />
+    <Reference Include="HISFC.Components.RADT, Version=2.0.0.0, Culture=neutral, processorArchitecture=MSIL" />
+    <Reference Include="HISFC.Components.Registration, Version=2.0.0.0, Culture=neutral, processorArchitecture=MSIL" />
+    <Reference Include="HISFC.Models, Version=2.0.0.0, Culture=neutral, processorArchitecture=MSIL" />
+    <Reference Include="HISFC.WinForms.DrugStore, Version=2.0.0.0, Culture=neutral, processorArchitecture=MSIL" />
+    <Reference Include="MRS.BizLogic, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL" />
+    <Reference Include="MRS.BizProcess, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL" />
+    <Reference Include="NeuDataWindow, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL" />
+    <Reference Include="Neusoft.HisCrypto, Version=2.0.0.0, Culture=neutral, processorArchitecture=MSIL" />
+    <Reference Include="Neusoft.Hisdecrypt, Version=1.0.1175.15645, Culture=neutral" />
+    <Reference Include="System, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL" />
+    <Reference Include="System.Data, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=x86" />
+    <Reference Include="System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL" />
+    <Reference Include="System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL" />
+    <Reference Include="System.Xml, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL" />
+    <Reference Include="TdInterface, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL" />
+    <Reference Include="UFC.MRS, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL" />
+    <Reference Include="WinForms.Report, Version=2.0.0.0, Culture=neutral, processorArchitecture=MSIL" />
+  </ItemGroup>
+  <ItemGroup>
+    <COMReference Include="sei3">
+      <Guid>{CF46CAAE-1301-47BE-98DA-23257129CA64}</Guid>
+      <VersionMajor>1</VersionMajor>
+      <VersionMinor>0</VersionMinor>
+      <Lcid>0</Lcid>
+      <WrapperTool>tlbimp</WrapperTool>
+      <Isolated>False</Isolated>
+    </COMReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="needCS.txt" />
+    <Content Include="new_probs.txt" />
+  </ItemGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

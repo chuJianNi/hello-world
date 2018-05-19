@@ -1,0 +1,44 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 10.00
+# Visual Studio 2008
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LiaoChengZYSI", "LiaoChengZYSI.csproj", "{87B01ECC-5A3F-45CB-8967-2FDF257A7A7D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Components.Order", "..\..\..\..\..\..\YLZB1206382A聊城市中医院\核心源码\HISFC\Src\HISFC.Components\Order\Components.Order.csproj", "{D880A330-5AAE-42EA-9E4F-FA59F864ED12}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Components.InpatientFee", "..\..\..\..\..\..\YLZB1206382A聊城市中医院\核心源码\HISFC\Src\HISFC.Components\InpatientFee\Components.InpatientFee.csproj", "{C27E3762-0820-4D6B-9DA9-1627C20C905C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Components.Common", "..\..\..\..\..\..\YLZB1206382A聊城市中医院\核心源码\HISFC\Src\HISFC.Components\Common\Components.Common.csproj", "{D5A194BC-F0D7-43AC-A455-CC7D69FDABAF}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HISFC.BizProcess.Integrate", "..\..\..\..\..\..\YLZB1206382A聊城市中医院\核心源码\HISFC\Src\HISFC.BizProcess\Integrate\HISFC.BizProcess.Integrate.csproj", "{86C60E4F-2374-4E03-9303-92BB6E1E6949}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{87B01ECC-5A3F-45CB-8967-2FDF257A7A7D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{87B01ECC-5A3F-45CB-8967-2FDF257A7A7D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{87B01ECC-5A3F-45CB-8967-2FDF257A7A7D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{87B01ECC-5A3F-45CB-8967-2FDF257A7A7D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D880A330-5AAE-42EA-9E4F-FA59F864ED12}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D880A330-5AAE-42EA-9E4F-FA59F864ED12}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D880A330-5AAE-42EA-9E4F-FA59F864ED12}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D880A330-5AAE-42EA-9E4F-FA59F864ED12}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C27E3762-0820-4D6B-9DA9-1627C20C905C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C27E3762-0820-4D6B-9DA9-1627C20C905C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C27E3762-0820-4D6B-9DA9-1627C20C905C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C27E3762-0820-4D6B-9DA9-1627C20C905C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D5A194BC-F0D7-43AC-A455-CC7D69FDABAF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D5A194BC-F0D7-43AC-A455-CC7D69FDABAF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D5A194BC-F0D7-43AC-A455-CC7D69FDABAF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D5A194BC-F0D7-43AC-A455-CC7D69FDABAF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{86C60E4F-2374-4E03-9303-92BB6E1E6949}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{86C60E4F-2374-4E03-9303-92BB6E1E6949}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{86C60E4F-2374-4E03-9303-92BB6E1E6949}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{86C60E4F-2374-4E03-9303-92BB6E1E6949}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
