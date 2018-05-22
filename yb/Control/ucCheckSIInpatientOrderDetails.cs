@@ -49,14 +49,11 @@ namespace LiaoChengZYSI.Control
 
         #endregion
 
+        DataTable dt = new DataTable();
+
         public void init()
         {
-
-            if (this.fpMedicine_Sheet1.Rows.Count > 0)
-            {
-                this.fpMedicine_Sheet1.Rows.Remove(0, this.fpMedicine_Sheet1.Rows.Count);
-            }
-            this.fpMedicine_Sheet1.StartingColumnNumber = 0;
+            dt.Clear();
         }
 
 
@@ -67,7 +64,23 @@ namespace LiaoChengZYSI.Control
         /// <param name="e"></param>
         private void ucCheckSIInpatientFeeDetails_Load(object sender, EventArgs e)
         {
-            this.init();
+            dt.Columns.Add("序号", typeof(System.Int32));
+            dt.Columns.Add("流水号", typeof(System.String));
+            dt.Columns.Add("医嘱组号", typeof(System.String));
+            dt.Columns.Add("医嘱类型", typeof(System.String));
+            dt.Columns.Add("内容", typeof(System.String));
+            dt.Columns.Add("医师编码", typeof(System.String));
+            dt.Columns.Add("医师姓名", typeof(System.String));
+            dt.Columns.Add("终止医师编码", typeof(System.String));
+            dt.Columns.Add("终止医师姓名", typeof(System.String));
+            dt.Columns.Add("起始日期", typeof(System.String));
+            dt.Columns.Add("终止日期", typeof(System.String));
+            dt.Columns.Add("科室编码", typeof(System.String));
+            dt.Columns.Add("科室名称", typeof(System.String));
+            dt.Columns.Add("床位", typeof(System.String));
+            dt.Columns.Add("上传日期", typeof(System.String));
+            dt.Columns.Add("发生时间", typeof(System.String));
+            //this.init();
         }
 
         /// <summary>
@@ -105,7 +118,8 @@ namespace LiaoChengZYSI.Control
 
             //this.SetPatientMedicineListToCheck(patient.ID);
             this.SetPatientOrderListToCheck(patient.ID,ref al);
-           
+            
+
 
             this.ucQueryInpatientNo1.Focus();
         }
@@ -149,99 +163,6 @@ namespace LiaoChengZYSI.Control
             //this.lblZG.Text = patient.PVisit.ZG.Name;
         }
 
-        /// <summary>
-        /// 设置患者的药品费用明细
-        /// </summary>
-        /// <param name="inPatientNo"></param>
-        public void SetPatientMedicineListToCheck(string inPatientNo)
-        {
-            ArrayList medicineList = this.localManager.QueryInpatientMedicineListToCheck(inPatientNo,this.patientInfo.Pact.ID);
-            if (medicineList == null)
-            {
-                MessageBox.Show("获取【"+inPatientNo+"】的药品费用明细失败 "+this.localManager.Err);
-                return;
-            }
-
-            int i=0;
-
-            foreach (Neusoft.HISFC.Models.Fee.Inpatient.FeeItemList item in medicineList)
-            {
-                this.fpMedicine_Sheet1.Rows.Add(i, 1);
-                this.fpMedicine_Sheet1.Rows[i].Tag = item;
-
-                if (item.Item.SpecialFlag3 == "1")
-                {
-                    this.fpMedicine_Sheet1.Cells[i, 0].Value = true;
-                    this.fpMedicine_Sheet1.Rows[i].ForeColor = Color.Black;
-                }
-                else
-                {
-                    this.fpMedicine_Sheet1.Cells[i, 0].Value = false;
-                    this.fpMedicine_Sheet1.Rows[i].ForeColor = Color.Blue;
-                }
-
-                if (string.IsNullOrEmpty(item.Item.SpecialFlag1)&&item.Item.SpecialFlag3!="1")
-                {
-                    ArrayList rateList = this.localManager.QueryComparedItemCenterRate("2", item.Item.ID);
-                    Neusoft.HISFC.Models.SIInterface.Compare compare = this.localManager.QueryComparedItemCenterRateBeforeCheck("2", item.Item.ID);
-                    if (compare == null)
-                    {
-                        MessageBox.Show("从对照表取自付比例失败 " + this.localManager.Err);
-                        return;
-                    }
-                    if (string.IsNullOrEmpty(compare.CenterItem.User01.ToString()))
-                    {
-                        item.Item.SpecialFlag1 = compare.CenterItem.User01.ToString();
-                    }
-                    else
-                    {
-                        item.Item.SpecialFlag1 = compare.CenterItem.Rate.ToString();
-                    }
-                    item.Item.SpecialFlag2 = compare.CenterItem.Memo;
-
-                    if (rateList != null && rateList.Count == 1)
-                    {
-                        this.fpMedicine_Sheet1.Rows[i].ForeColor = Color.Black;
-                        this.fpMedicine_Sheet1.Cells[i, 0].Value = true;
-                    }
-
-                }
-                if (string.IsNullOrEmpty(item.Item.SpecialFlag1)&&item.Item.SpecialFlag3!="1")
-                {
-                    this.fpMedicine_Sheet1.Cells[i, 2].Text = "目录外或是未对照";
-                    this.fpMedicine_Sheet1.Cells[i, 2].ForeColor = Color.Red;
-                }
-                else if (string.IsNullOrEmpty(item.Item.SpecialFlag1) && item.Item.SpecialFlag3 == "1")
-                {
-                    this.fpMedicine_Sheet1.Cells[i, 2].Text = "该项目已审核为空比例，不进行上传";
-                    this.fpMedicine_Sheet1.Cells[i, 2].ForeColor = Color.Red;
-                 }
-                else
-                {
-                    this.fpMedicine_Sheet1.Cells[i, 1].Text = item.Item.SpecialFlag1;//自付比例
-                    this.fpMedicine_Sheet1.Cells[i, 2].Text = item.Item.SpecialFlag2;//自付比例说明
-                }
-
-                this.fpMedicine_Sheet1.Cells[i,3].Text=item.Item.Name;//药品名称
-                this.fpMedicine_Sheet1.Cells[i,4].Text=item.Item.Specs;//规格
-                this.fpMedicine_Sheet1.Cells[i,5].Text=item.Item.PriceUnit;//计价单位
-                this.fpMedicine_Sheet1.Cells[i,6].Text=item.Item.SpecialFlag;//最小单位
-                this.fpMedicine_Sheet1.Cells[i,7].Text=item.Item.Qty.ToString();//开立数量
-                this.fpMedicine_Sheet1.Cells[i,8].Text=item.Item.Price.ToString();//单价
-                this.fpMedicine_Sheet1.Cells[i,9].Text=item.FT.TotCost.ToString();//金额
-                this.fpMedicine_Sheet1.Cells[i,10].Text=item.FeeOper.OperTime.ToString();//收费时间
-                this.fpMedicine_Sheet1.Cells[i,11].Text=item.Item.SysClass.Name;//类型
-                this.fpMedicine_Sheet1.Cells[i,12].Text=item.RecipeOper.Name;//开立医师
-                this.fpMedicine_Sheet1.Cells[i,13].Text=item.RecipeOper.Dept.Name;//开立科室
-                this.fpMedicine_Sheet1.Cells[i,14].Text=item.ExecOper.Dept.Name;//执行科室
-                this.fpMedicine_Sheet1.Cells[i, 15].Text = item.Item.ID;
-            }
-
-            //for (int j = 1; j < this.fpMedicine_Sheet1.Columns.Count; j++)
-            //{
-            //    this.fpMedicine_Sheet1.Columns[j].Locked = true;
-            //}
-        }
 
         /// <summary>
         /// 设置患者的医嘱信息
@@ -255,25 +176,26 @@ namespace LiaoChengZYSI.Control
                 MessageBox.Show("获取【" + inPatientNo + "】的医嘱信息失败 " + this.orderManagement.Err);
                 return;
             }
-            
-            int i = 0;
 
+            int j = 1;
             foreach (object obj in orderList)
-            {                
+            {
                 Neusoft.HISFC.Models.Order.Inpatient.Order order = obj as Neusoft.HISFC.Models.Order.Inpatient.Order;
-                
+
                 if (order == null)
                     continue;
 
-                if (order.Status == 3)		//不显示作废/停止医嘱
+                if (order.Status != 3 && order.Status != 2)		//显示作废/停止/执行医嘱
                     continue;
-                this.fpMedicine_Sheet1.Rows.Add(i, 1);
+                DataRow dr = dt.NewRow();
 
+                #region 显示医嘱内容
+                dr["序号"] = j++;
                 #region 医嘱名称
-                                
+
                 if (order.Item.Specs == null || order.Item.Specs.Trim() == "")
                 {
-                    this.fpMedicine_Sheet1.Cells[i, 2].Value = order.Item.Name;
+                    dr["内容"] = order.Item.Name;
                 }
                 else
                 {
@@ -281,85 +203,50 @@ namespace LiaoChengZYSI.Control
                     if (order.Item.GetType() == typeof(Neusoft.HISFC.Models.Pharmacy.Item))
                     {
                         Neusoft.HISFC.Models.Pharmacy.Item objitem = itemManager.GetItem(order.Item.ID);
-                        this.fpMedicine_Sheet1.Cells[i, 2].Value = order.Item.Name + (string.IsNullOrEmpty(objitem.NameCollection.RegularName) == true ? "" : "(" + objitem.NameCollection.RegularName + ")") + "[" + order.Item.Specs + "]";
+                        dr["内容"] = order.Item.Name + (string.IsNullOrEmpty(objitem.NameCollection.RegularName) == true ? "" : "(" + objitem.NameCollection.RegularName + ")") + "[" + order.Item.Specs + "]";
                     }
                     else
                     {
-                        this.fpMedicine_Sheet1.Cells[i, 2].Value = order.Item.Name + "[" + order.Item.Specs + "]";
+                        dr["内容"] = order.Item.Name + "[" + order.Item.Specs + "]";
                     }
 
                 }
                 //医保用药
                 if (order.IsPermission)
-                    this.fpMedicine_Sheet1.Cells[i, 2].Value = "√" + this.fpMedicine_Sheet1.Cells[i, 2].Value;
+                    dr["内容"] = "√" + dr["内容"];
                 #endregion
-
-                #region 医嘱类型
-                this.fpMedicine_Sheet1.Cells[i, 1].Value = order.OrderType.Name;
-                #endregion
-
-                #region 每次量、单位、付数
-                if (order.Item.GetType() == typeof(Neusoft.HISFC.Models.Pharmacy.Item))
+                dr["医嘱类型"] = order.OrderType.Name;                                
+                dr["流水号"] = order.ID;
+                dr["医嘱组号"] = order.Combo.ID;
+                dr["医师编码"] = order.ReciptDoctor.ID;
+                dr["医师姓名"] = order.ReciptDoctor.Name;
+                if (order.Status == 3)
                 {
-                    Neusoft.HISFC.Models.Pharmacy.Item objItem = order.Item as Neusoft.HISFC.Models.Pharmacy.Item;
-                    this.fpMedicine_Sheet1.Cells[i, 7].Value = order.DoseOnce.ToString();
-                    this.fpMedicine_Sheet1.Cells[i, 8].Value = objItem.DoseUnit;
-                    this.fpMedicine_Sheet1.Cells[i, 9].Value = order.HerbalQty;	
-                    //row["主药"] = System.Convert.ToInt16(order.Combo.IsMainDrug);	//6
+                    dr["终止医师编码"] = order.DCOper.ID;
+                    dr["终止医师姓名"] = order.DCOper.Name;
+                    dr["终止日期"] = order.DCOper.OperTime.ToLongDateString();
+                    
                 }
+                dr["起始日期"] = order.BeginTime.ToLongDateString();
+                dr["科室编码"] = order.ExeDept.ID;
+                dr["科室名称"] = order.ExeDept.Name;
+                //床位为空
+                //上传日期为空     
+                dr["发生时间"] = order.MOTime.ToLongDateString();                   
                 #endregion
-
-                #region 其他
-                this.fpMedicine_Sheet1.Cells[i,5].Value=order.Qty;
-                
-
-                this.fpMedicine_Sheet1.Cells[i, 6].Value = order.Unit;
-                this.fpMedicine_Sheet1.Cells[i, 10].Value = order.Frequency.ID;
-                this.fpMedicine_Sheet1.Cells[i, 11].Value = order.Frequency.Name;
-                //row["用法编码"] = order.Usage.ID;
-                this.fpMedicine_Sheet1.Cells[i, 12].Value = order.Usage.Name;
-                this.fpMedicine_Sheet1.Cells[i, 13].Value = order.Item.SysClass.Name;
-                this.fpMedicine_Sheet1.Cells[i, 14].Value = order.BeginTime;
-                this.fpMedicine_Sheet1.Cells[i, 17].Value = order.ExeDept.Name;
-
-                this.fpMedicine_Sheet1.Cells[i, 19].Value = order.CheckPartRecord;
-                this.fpMedicine_Sheet1.Cells[i, 20].Value = order.Sample;
-                //row["扣库科室编码"] = order.StockDept.ID;
-                this.fpMedicine_Sheet1.Cells[i, 21].Value = deptHelper.GetName(order.StockDept.ID);
-
-                this.fpMedicine_Sheet1.Cells[i, 4].Value = order.Memo;
-                //row["录入人编码"] = order.Oper.ID;
-
-                this.fpMedicine_Sheet1.Cells[i, 22].Value = order.Oper.Name;
-                //if (order.ReciptDept.Name == "" && order.ReciptDept.ID != "") order.ReciptDept.Name = this.GetDeptName(order.ReciptDept);
-                this.fpMedicine_Sheet1.Cells[i, 16].Value = order.ReciptDoctor.Name;
-                this.fpMedicine_Sheet1.Cells[i, 23].Value = order.ReciptDept.Name;
-                this.fpMedicine_Sheet1.Cells[i, 24].Value = order.MOTime.ToString();
-
-                if (!order.EndTime.ToString().Contains("0001"))
+                dt.Rows.Add(dr);
+            }
+            dataGridView1.DataSource = dt;
+            for (int i = 0; i < dataGridView1.Rows.Count; i++)
+            {
+                if (!string.IsNullOrEmpty(dataGridView1.Rows[i].Cells["终止医师编码"].Value.ToString()))
                 {
-                     this.fpMedicine_Sheet1.Cells[i, 15].Value = order.EndTime;
+                    dataGridView1.Rows[i].DefaultCellStyle.BackColor = Color.Red;
                 }
-
-                this.fpMedicine_Sheet1.Cells[i, 25].Value = order.DCOper.Name;
-
-                this.fpMedicine_Sheet1.Cells[i, 0].Value = order.SortID;
-                this.fpMedicine_Sheet1.Cells[i, 26].Value = order.HypoTest;
-
-   
-           
-                
-
-                //row["期效"] = System.Convert.ToInt16(order.OrderType.Type);			//0
-
-                this.fpMedicine_Sheet1.Cells[i, 3].Value = order.ID;										//3
-                this.fpMedicine_Sheet1.Cells[i, 4].Value = order.Status;										//12 新开立，审核，执行
-                this.fpMedicine_Sheet1.Cells[i, 18].Value = order.Combo.ID;	//5
-                #endregion
             }
 
-
         }
+
 
 
         /// <summary>
@@ -369,6 +256,8 @@ namespace LiaoChengZYSI.Control
         /// <param name="e"></param>
         private void button1_Click(object sender, EventArgs e)
         {
+            Neusoft.FrameWork.WinForms.Classes.Function.ShowWaitForm("正在加载数据，请稍后^^");
+            
             Process.isInit = false;
             long returnValue = 0;
            
@@ -377,6 +266,7 @@ namespace LiaoChengZYSI.Control
             if (returnValue != 1)
             {
                 MessageBox.Show("待遇接口登陆医保服务器失败！" + this.proManager.ErrMsg, "错误提示");
+                Neusoft.FrameWork.WinForms.Classes.Function.HideWaitForm();
                 return;
             }
             #endregion
@@ -386,9 +276,12 @@ namespace LiaoChengZYSI.Control
             if (returnValue != 1)
             {
                 MessageBox.Show("待遇接口上传医嘱失败！" + this.proManager.ErrMsg, "错误提示");
+                Neusoft.FrameWork.WinForms.Classes.Function.HideWaitForm();
                 return;
             }
             #endregion
+
+            Neusoft.FrameWork.WinForms.Classes.Function.HideWaitForm();
 
             #region 3.断开连接和提交
             returnValue = this.proManager.Disconnect();
@@ -409,6 +302,7 @@ namespace LiaoChengZYSI.Control
 
             MessageBox.Show("住院医嘱导入成功！", "友情提示");
             #endregion
+            
         }
 
         #region 保存病历首页    
@@ -461,5 +355,19 @@ namespace LiaoChengZYSI.Control
             #endregion
         }
         #endregion
+
+        private void dataGridView1_RowPostPaint(object sender, DataGridViewRowPostPaintEventArgs e)
+        {
+            if (e.RowIndex == dataGridView1.RowCount - 1)
+            {
+                for (int i = 0; i < dataGridView1.Rows.Count; i++)
+                {
+                    if (!string.IsNullOrEmpty(dataGridView1.Rows[i].Cells["终止医师编码"].Value.ToString()))
+                    {
+                        dataGridView1.Rows[i].DefaultCellStyle.BackColor = Color.Red;
+                    }
+                }
+            }
+        }
     }
 }
