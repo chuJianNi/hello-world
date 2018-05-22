@@ -1,6 +1,6 @@
 ﻿<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
-    <ReferencePath>E:\yb\hislib东院\</ReferencePath>
+    <ReferencePath>D:\hislib东院\</ReferencePath>
     <PublishUrlHistory>
     </PublishUrlHistory>
     <InstallUrlHistory>

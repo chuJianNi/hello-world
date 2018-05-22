@@ -2748,7 +2748,7 @@ namespace LiaoChengZYSI
             }
             #endregion
 
-            #region 开始写一些上传医嘱的内容
+            #region 上传医嘱
 
             foreach (object obj in orderDetails)
             {
@@ -2757,7 +2757,7 @@ namespace LiaoChengZYSI
                 if (order == null)
                     continue;
 
-                if (order.Status == 3)		//不显示作废/停止医嘱
+                if (order.Status != 3 && order.Status != 2)		//显示作废/停止/执行医嘱
                     continue;
                 #region new codes
                 seiInterfaceProxy_new.resetvar();
@@ -2766,42 +2766,66 @@ namespace LiaoChengZYSI
                 //seiInterfaceProxy_new.putvarstring("yzly", "");
                 #region 获取执行科室的医保对照科室编码
                 string operDeptID = string.Empty;
-                if (this.localManager.GetComparedDoctCode(order.ReciptDept.ID, "1", ref operDeptID) != 1)
+                if (this.localManager.GetComparedDoctCode(order.ExeDept.ID, "1", ref operDeptID) != 1)
                 {
                     this.errText = "获取对照的科室信息出错！" + this.localManager.Err;
                     return -1;
                 }
                 if (string.IsNullOrEmpty(operDeptID))
                 {
-                    this.errText = "获取科室对照信息出错！" + "【" + order.ReciptDept.ID + "】未进行科室对照！";
+                    this.errText = "获取科室对照信息出错！" + "【" + order.ExeDept.ID + "】未进行科室对照！";
                     return -1;
                 }
                 #endregion
                 seiInterfaceProxy_new.putvarstring("ksbm", operDeptID);  //科室编码
                 #region 医生对照
-                string centerDoctID = string.Empty;
-                string doctCode = string.Empty;
-                doctCode = patient.PVisit.ConsultingDoctor.ID;//主任医师
-
-                if (string.IsNullOrEmpty(doctCode))
+                string centerDoctID_kl = string.Empty;
+                string doctCode_kl = string.Empty;
+                string centerDoctID_tz = string.Empty;
+                string doctCode_tz = string.Empty;
+                //doctCode = patient.PVisit.ConsultingDoctor.ID;//主任医师
+                doctCode_kl = order.ReciptDoctor.ID;
+                if (string.IsNullOrEmpty(doctCode_kl))
                 {
-                    this.errText = "保存住院患者费用凭单信息失败\n医师代码为空值 \n错误代码：01" + "\n错误内容：没有找到开立医师的编码";
+                    this.errText = "上传医嘱失败\n医师代码为空值 \n错误代码：01" + "\n错误内容：没有找到开立医师的编码";
                     return -1;
                 }
                 else
                 {
-                    if (this.localManager.GetComparedDoctCode(doctCode, "0", ref centerDoctID) != 1)
+                    if (this.localManager.GetComparedDoctCode(doctCode_kl, "0", ref centerDoctID_kl) != 1)
                     {
-                        this.errText = "获取对照的医师信息出错！" + this.localManager.Err;
+                        this.errText = "获取对照的开立医师信息出错！" + this.localManager.Err;
                         return -1;
                     }
                 }
                 #endregion
-                seiInterfaceProxy_new.putvarstring("klysbm", centerDoctID);  //开立医师编码
+                seiInterfaceProxy_new.putvarstring("klysbm", centerDoctID_kl);  //开立医师编码
                 seiInterfaceProxy_new.putvardatetime("yzfssj", order.MOTime); //医嘱发生时间
                 seiInterfaceProxy_new.putvardatetime("qsrq", order.BeginTime); //起始执行时间
-                seiInterfaceProxy_new.putvardatetime("zzrq", DateTime.Now);//终止执行时间
-                seiInterfaceProxy_new.putvarstring("zzysbm", centerDoctID); //终止医师编码
+                
+                if (order.Status == 3)
+                {
+                    seiInterfaceProxy_new.putvardatetime("zzrq", order.DCOper.OperTime);//终止执行时间
+                    #region 医生对照                    
+                    //doctCode = patient.PVisit.ConsultingDoctor.ID;//主任医师
+                    doctCode_tz = order.DCOper.ID;
+                    if (string.IsNullOrEmpty(doctCode_tz))
+                    {
+                        this.errText = "上传医嘱失败\n医师代码为空值 \n错误代码：01" + "\n错误内容：没有找到停止医师的编码";
+                        return -1;
+                    }
+                    else
+                    {
+                        if (this.localManager.GetComparedDoctCode(doctCode_tz, "0", ref centerDoctID_tz) != 1)
+                        {
+                            this.errText = "获取对照的停止医师信息出错！" + this.localManager.Err;
+                            return -1;
+                        }
+                    }
+                    #endregion
+                    seiInterfaceProxy_new.putvarstring("zzysbm", centerDoctID_tz); //终止医师编码
+                }
+                
                 #region 医嘱名称
 
                 if (order.Item.Specs == null || order.Item.Specs.Trim() == "")
@@ -2826,10 +2850,32 @@ namespace LiaoChengZYSI
                 #endregion
                 
                 seiInterfaceProxy_new.putvarstring("yzsm", order.Memo); //医嘱说明
-                if(order.OrderType.Type.ToString()=="LONG")
-                    seiInterfaceProxy_new.putvarstring("yzlx","1"); //医嘱类型
+                
+                #region 医嘱类型
+                string yzlx = string.Empty;
+                if (order.OrderType.Name.Substring(0, 2).Equals("嘱托"))
+                    yzlx = "4";
                 else
-                    seiInterfaceProxy_new.putvarstring("yzlx", "2"); //医嘱类型
+                {
+                    if (order.OrderType.Name.Substring(0, 2).Equals("长期"))
+                        yzlx = "1";
+                    else
+                    {
+                        if (order.OrderType.Name.Substring(0, 2).Equals("临时"))
+                            yzlx = "2";
+                        else
+                        {
+                            if (order.OrderType.Name.Substring(0, 2).Equals("描述"))
+                                yzlx = "5";
+                            else
+                                yzlx = "9";
+                        }
+                    }
+                }
+   
+                seiInterfaceProxy_new.putvarstring("yzlx", yzlx); //医嘱类型
+                #endregion
+
                 //seiInterfaceProxy_new.putvarstring("cw", "2"); //床位
 
                 returnValue= seiInterfaceProxy_new.request_service("save_yz");
@@ -2839,15 +2885,18 @@ namespace LiaoChengZYSI
                 if (returnValue != 0)
                 {
                     string YBerrText = seiInterfaceProxy_new.get_errtext();
-                    this.errText = "保存医嘱失败." + "\n错误代码：" + returnValue + "\n医师编码：" + centerDoctID + "   "+patient.PVisit.ConsultingDoctor.Name +
-                        "\n科室编码："+order.ReciptDept.ID+"  中心科室编码："+operDeptID+"\n错误内容：" + YBerrText;
+                    this.errText = "保存医嘱失败." + "\n错误代码：" + returnValue +
+                        "\n开立医师编码：" + centerDoctID_kl + "   "+order.ReciptDoctor.Name+//patient.PVisit.ConsultingDoctor.Name +
+                        "\n停止医师编码：" + centerDoctID_tz + "   " + order.DCOper.Name +//patient.PVisit.ConsultingDoctor.Name +
+                        "\n科室编码："+order.ExeDept.ID+"   "+order.ExeDept.Name+"  中心科室编码："+operDeptID+
+                        "\n错误内容：" + YBerrText;
                     return -1;
                 }
 
                 #endregion                               
             }
             #endregion
-            
+
             return 1;
         }
 
