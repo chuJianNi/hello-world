@@ -1154,7 +1154,6 @@ namespace LiaoChengZYSI.Control
             long returnValue = 0;
             string[] blocks = CailiaoCode.Split(',');
             bool isCailiao = false;
-
             Process.isInit = false;
             #region 1.先测试是否能连上医保
             returnValue = this.proManager.Connect();
